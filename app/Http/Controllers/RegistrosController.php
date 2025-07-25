@@ -11,12 +11,14 @@ class RegistrosController extends Controller
 
     
 
-    public function list (Request $request) {
+    public function listAllRegisters (Request $request) {
 
-        return response()->json(['status' => 'ok']);
+        $data = Register::all();
+
+        return response()->json($data);
     }
 
-    public function register(Request $request)
+    public function createRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'tipo_registro' => 'required|string',
@@ -45,6 +47,44 @@ class RegistrosController extends Controller
             'success' => true,
             'message' => 'Registro criado com sucesso',
             'register' => $register,
+        ], 201);
+    }
+
+    public function patchRegister(Request $request) {
+
+        
+        $validatedData = $request->validate([
+            'hr_entrada' => 'required|string',
+            'hr_saida' => 'required|string',
+            'obs' => 'string'
         ]);
+
+        $register = Register::find($request->id);
+
+        if($register) {
+
+            $register->hr_entrada = $request->hr_entrada;
+            $register->hr_saida = $request->hr_saida;
+            $register->obs = $request->obs;
+
+            $register->save();
+
+            return response()->json($register);
+        }
+
+        return response()->json(['not found']);
+    }
+
+    public function deleteRegister(Request $request) {
+
+        $register = Register::find($request->id);
+
+        if($register) {
+            $register->delete();
+
+            return response()->json(['delete' => 'ok']);
+        }
+
+        return response()->json(['delete' => 'não encontrado!']);
     }
 }

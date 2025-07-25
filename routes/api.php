@@ -18,6 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // Register routes
-    Route::get('/register', [RegistrosController::class, 'list']);
-    Route::post('/register', [RegistrosController::class, 'register']);
+    Route::get('/registers', [RegistrosController::class, 'listAllRegisters']);
+    Route::post('/register', [RegistrosController::class, 'createRegister']);
+    Route::patch('/register/{id}', [RegistrosController::class, 'patchRegister']);
+    Route::delete('/register/{id}', [RegistrosController::class, 'deleteRegister']);
 });
