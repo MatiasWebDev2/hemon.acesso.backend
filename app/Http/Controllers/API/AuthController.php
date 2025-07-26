@@ -43,7 +43,7 @@ class AuthController extends Controller
     }
 
     // User Login API
-    public function login(Request $request): JsonResponse
+    public function login(Request $request)
     {
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['error' => 'Unauthorized'], 401);

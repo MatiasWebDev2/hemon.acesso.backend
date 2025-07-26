@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Register;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,6 +17,31 @@ class RegistrosController extends Controller
         $data = Register::all();
 
         return response()->json($data);
+    }
+
+    public function listByDates(Request $request) {
+
+        $start_date = $request->start_date;
+        $end_date = $request->end_date; 
+
+
+        if($start_date == $end_date) {
+            $registers = Register::whereDate('created_at', $start_date)->get();
+            return response()->json($registers);
+        }
+
+        $registers = Register::whereBetween('created_at', [$start_date, Carbon::createFromFormat('Y-m-d', $end_date)->endOfDay()])->get();
+        return response()->json($registers);
+
+
+    }
+
+    public function getById(Request $request) {
+
+        $id = $request->id;
+        $registro = Register::find($id);
+
+        return response()->json($registro);
     }
 
     public function createRegister(Request $request)

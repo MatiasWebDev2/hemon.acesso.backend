@@ -19,7 +19,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Register routes
     Route::get('/registers', [RegistrosController::class, 'listAllRegisters']);
+    Route::get('/register/{id}', [RegistrosController::class, 'getById']);
+    Route::get('/registers-by-date/{start_date}/{end_date}', [RegistrosController::class, 'listByDates']);
     Route::post('/register', [RegistrosController::class, 'createRegister']);
     Route::patch('/register/{id}', [RegistrosController::class, 'patchRegister']);
     Route::delete('/register/{id}', [RegistrosController::class, 'deleteRegister']);
+    
 });
