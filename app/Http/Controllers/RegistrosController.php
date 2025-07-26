@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Validator;
 class RegistrosController extends Controller
 {
 
-    
-
     public function listAllRegisters (Request $request) {
 
         $data = Register::all();
@@ -67,8 +65,6 @@ class RegistrosController extends Controller
             'obs' => $request->obs,
         ]);
 
-
-
         return response()->json([
             'success' => true,
             'message' => 'Registro criado com sucesso',
@@ -79,7 +75,7 @@ class RegistrosController extends Controller
     public function patchRegister(Request $request) {
 
         
-        $validatedData = $request->validate([
+        $request->validate([
             'hr_entrada' => 'required|string',
             'hr_saida' => 'required|string',
             'obs' => 'string'
@@ -98,7 +94,7 @@ class RegistrosController extends Controller
             return response()->json($register);
         }
 
-        return response()->json(['not found']);
+        return response()->json(['success' => false, 'message' => 'not found'], 404);
     }
 
     public function deleteRegister(Request $request) {
